@@ -1,0 +1,17 @@
+{
+  "name": "oops",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "koa": "^2.2.0",
+    "koa-jwt": "^3.2.1",
+    "koa-passport": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": ":"
+  },
+  "author": "",
+  "license": "ISC"
+}
