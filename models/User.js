@@ -1,21 +1,19 @@
 const mongoose = require('mongoose');
 const Post = require('./Post');
 
+const { Schema } = mongoose;
+
 const ROLES = {
   ADMIN: 'admin',
   USER: 'user',
 };
 
-const User = new mongoose.Schema({
+const User = new Schema({
   username: String,
   email: String,
   password: String,
+  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   role: { type: String, default: ROLES.USER },
 });
 
-User.methods.getPosts = async function() {
-  const posts = await Post.find({ user: this.id });
-  return posts;
-};
-
-export default mongoose.model('User', User);
+module.exports = mongoose.model('User', User);

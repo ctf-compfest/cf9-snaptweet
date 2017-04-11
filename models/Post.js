@@ -12,4 +12,4 @@ Post.pre('save', next => {
   next();
 });
 
-export default mongoose.model('Post', Post);
+module.exports = mongoose.model('Post', Post);
