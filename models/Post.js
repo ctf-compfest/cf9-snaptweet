@@ -7,7 +7,14 @@ const Post = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
-Post.pre('save', next => {
+if (!Post.options.toJSON) Post.options.toJSON = {};
+Post.options.toJSON.transform = (doc, ret, opts) => ({
+  body: ret.body,
+  created_at: ret.created_at,
+  author: ret.author,
+});
+
+Post.pre('save', function(next) {
   if (!this.created_at) this.created_at = new Date();
   next();
 });

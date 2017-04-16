@@ -6,31 +6,26 @@ async function getAll(ctx) {
 
 async function get(ctx) {
   const { id } = ctx.params;
-  let Post = null;
+  let post = null;
 
   if (ctx.request.query.populate) {
-    Post = await Post.findById(id).populate('author');
+    post = await Post.findById(id).populate('author');
   } else {
-    Post = await Post.findById(id);
+    post = await Post.findById(id);
   }
 
-  ctx.body = Post;
+  ctx.body = post;
 }
 
-// @TODO JWT
 async function post(ctx) {
-  ctx.body = await new Post(ctx.request.body).save();
-}
-
-// whole update
-async function put(ctx) {
-  const { id } = ctx.params;
-  ctx.body = await Post.update({ _id: id }, ctx.request.body);
+  const user = ctx.state.user;
+  const data = ctx.request.body;
+  data.author = user.id;
+  ctx.body = await new Post(data).save();
 }
 
 module.exports = {
   get,
   getAll,
   post,
-  put,
 };

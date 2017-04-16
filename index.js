@@ -1,26 +1,18 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const mongoose = require('mongoose');
+const logger = require('./middlewares/logger');
+const auth = require('./middlewares/auth');
 const router = require('./routes');
 
 mongoose.Promise = Promise;
-
 mongoose.connect('mongodb://localhost/cf9-oops');
+
 const app = new Koa();
 
-// X-Response-Time
-app.use(async (ctx, next) => {
-  const start = new Date();
-  const formattedDate = `${start.getHours()}:${start.getMinutes()}:${start.getSeconds()}`;
-  console.log(`[${formattedDate}] ${ctx.method} ${ctx.url}`);
-
-  await next();
-
-  const ms = new Date() - start;
-  ctx.set('X-Response-Time', `${ms}ms`);
-});
-
+app.use(logger);
 app.use(bodyParser());
+app.use(auth.passport.initialize());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
