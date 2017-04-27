@@ -1,16 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './containers/App';
+import Store from './stores';
+import * as apiService from './services/api';
 import './index.css';
 
-import { observable, action } from 'mobx';
-
-export const store = observable({
-  counter: 0,
-});
-
-store.countUp = action(function up() {
-  store.counter++;
-});
+const store = new Store(apiService);
 
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
