@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const cors = require('kcors');
 const mongoose = require('mongoose');
 const logger = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
@@ -10,6 +11,7 @@ mongoose.connect('mongodb://localhost/cf9-oops');
 
 const app = new Koa();
 
+app.use(cors());
 app.use(logger);
 app.use(bodyParser());
 app.use(auth.passport.initialize());

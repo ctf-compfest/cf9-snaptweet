@@ -4,6 +4,10 @@ async function getAll(ctx) {
   ctx.body = await User.find();
 }
 
+async function getLogin(ctx) {
+  ctx.body = ctx.state.user;
+}
+
 async function get(ctx) {
   const { username } = ctx.params;
   let user = null;
@@ -28,11 +32,20 @@ async function post(ctx) {
 // whole update
 async function put(ctx) {
   const { username } = ctx.params;
-  ctx.body = await User.update({ username }, ctx.request.body);
+  const data = ctx.request.body;
+  delete data.id;
+  delete data.username;
+  data.username = username;
+  try {
+    ctx.body = await User.update({ username }, data);
+  } catch (err) {
+    ctx.status = 400;
+  }
 }
 
 module.exports = {
   get,
+  getLogin,
   getAll,
   post,
   put,

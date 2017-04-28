@@ -1,7 +1,11 @@
 const Post = require('../models/Post');
 
 async function getAll(ctx) {
-  ctx.body = await Post.find();
+  if (ctx.request.query.populate) {
+    ctx.body = await Post.find().populate('author');
+  } else {
+    ctx.body = await Post.find();
+  }
 }
 
 async function get(ctx) {

@@ -21,10 +21,6 @@ class Dashboard extends Component {
     this.props.store.fetchPosts();
   }
 
-  componentDidMount() {
-    this.props.store.refreshLogin();
-  }
-
   render() {
     return (
       <div className="App">

@@ -10,61 +10,137 @@ class Login extends Component {
     super();
     this.state = {
       username: '',
+      email: '',
       password: '',
       confirmPassword: '',
       registering: false,
     };
 
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onLogin = this.onLogin.bind(this);
+    this.onRegister = this.onRegister.bind(this);
+    this.toggleRegister = this.toggleRegister.bind(this);
   }
 
   onChange(field) {
     return event => this.setState({ [field]: event.target.value });
   }
 
-  onSubmit(e) {
+  toggleRegister() {
+    this.setState({ registering: !this.state.registering });
+  }
+
+  onLogin(e) {
     e.preventDefault();
 
     const { username, password } = this.state;
     this.props.store.login(username, password);
   }
 
-  render() {
+  onRegister(e) {
+    e.preventDefault();
+
+    const { username, email, password, confirmPassword } = this.state;
+
+    if (password !== confirmPassword) {
+      alert('Mismatch password confirmation');
+    }
+
+    this.props.store.register(username, email, password);
+  }
+
+  renderLogin() {
     const { username, password } = this.state;
+    return (
+      <Container>
+        <form onSubmit={this.onLogin}>
+          <Field>
+            <Label>Username</Label>
+            <Input
+              type="text"
+              name="username"
+              onChange={this.onChange('username')}
+              value={username}
+            />
+          </Field>
+          <Field>
+            <Label>Password</Label>
+            <Input
+              type="password"
+              name="password"
+              onChange={this.onChange('password')}
+              value={password}
+            />
+          </Field>
+          <ButtonContainer>
+            <Button type="button" transparent onClick={this.toggleRegister}>
+              Register
+            </Button>
+            <Button type="submit" large marginLeft>Login</Button>
+          </ButtonContainer>
+        </form>
+      </Container>
+    );
+  }
+
+  renderRegister() {
+    const { username, password, email, confirmPassword } = this.state;
+    return (
+      <Container>
+        <form onSubmit={this.onRegister}>
+          <Field>
+            <Label>Username</Label>
+            <Input
+              type="text"
+              name="username"
+              onChange={this.onChange('username')}
+              value={username}
+            />
+          </Field>
+          <Field>
+            <Label>Email</Label>
+            <Input
+              type="email"
+              name="email"
+              onChange={this.onChange('email')}
+              value={email}
+            />
+          </Field>
+          <Field>
+            <Label>Password</Label>
+            <Input
+              type="password"
+              name="password"
+              onChange={this.onChange('password')}
+              value={password}
+            />
+          </Field>
+          <Field>
+            <Label>Confirm Password</Label>
+            <Input
+              type="password"
+              name="confirmPassword"
+              onChange={this.onChange('confirmPassword')}
+              value={confirmPassword}
+            />
+          </Field>
+          <ButtonContainer>
+            <Button type="button" transparent onClick={this.toggleRegister}>
+              Login
+            </Button>
+            <Button type="submit" large marginLeft>Register</Button>
+          </ButtonContainer>
+        </form>
+      </Container>
+    );
+  }
+
+  render() {
+    const { registering } = this.state;
     const loggedIn = this.props.store.loggedIn.get();
 
-    console.log(loggedIn);
-
-    if (!loggedIn)
-      return (
-        <Container>
-          <form onSubmit={this.onSubmit}>
-            <Field>
-              <Label>Username</Label>
-              <Input
-                type="text"
-                name="username"
-                onChange={this.onChange('username')}
-                value={username}
-              />
-            </Field>
-            <Field>
-              <Label>Password</Label>
-              <Input
-                type="password"
-                name="password"
-                onChange={this.onChange('password')}
-                value={password}
-              />
-            </Field>
-            <ButtonContainer>
-              <Button transparent>Register</Button>
-              <Button type="submit" large marginLeft>Login</Button>
-            </ButtonContainer>
-          </form>
-        </Container>
-      );
+    if (!loggedIn && registering) return this.renderRegister();
+    else if (!loggedIn && !registering) return this.renderLogin();
     else return <Redirect to="/" />;
   }
 }

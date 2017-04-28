@@ -10,6 +10,7 @@ const router = new Router({
 router.post('/login', auth.login);
 
 router.get('/users', auth.authenticate, auth.onlyAdmin, UserController.getAll);
+router.get('/users/me', auth.authenticate, UserController.getLogin);
 router.get('/users/:username', auth.authenticate, UserController.get);
 router.post('/users', UserController.post);
 router.put(

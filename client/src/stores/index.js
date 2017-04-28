@@ -1,4 +1,4 @@
-import { observable, action, extendObservable } from 'mobx';
+import { observable, action } from 'mobx';
 
 export class User {
   id = null;
@@ -56,6 +56,15 @@ export default class Store {
   constructor(service) {
     this.service = service;
   }
+
+  register = action(async function(username, email, password) {
+    try {
+      await this.service.register(username, email, password);
+      await this.login(username, password);
+    } catch (err) {
+      alert('Register failed');
+    }
+  });
 
   login = action(async function(username, password) {
     try {

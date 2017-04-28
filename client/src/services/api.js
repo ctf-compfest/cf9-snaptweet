@@ -14,6 +14,15 @@ export async function login(username, password) {
   return {};
 }
 
+export async function register(username, email, password) {
+  const response = await axios.post('/api/users', {
+    username,
+    email,
+    password,
+  });
+  return response.data;
+}
+
 export async function fetchLogin(token) {
   setToken(token);
   const response = await axios.get('/api/users/me');
