@@ -104,6 +104,11 @@ export default class Store {
     }
   });
 
+  submitPost = action(async function(body) {
+    await this.service.submitPost(body);
+    return await this.fetchPosts();
+  });
+
   refreshLogin = action(function() {
     if (localStorage.token) {
       this.token.set(localStorage.token);

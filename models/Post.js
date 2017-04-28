@@ -27,7 +27,9 @@ Post.virtual('expired').get(function() {
 });
 
 Post.statics.findNonExpired = function(q) {
-  return this.find(Object.assign(q || {}, { expired: false }));
+  return this.find(
+    Object.assign(q || {}, { created_at: { $gt: new Date() - EXPIRED_TIME } })
+  );
 };
 
 Post.pre('save', function(next) {

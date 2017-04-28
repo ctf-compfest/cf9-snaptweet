@@ -16,7 +16,9 @@ export default observer(
             </MenuItem>
             {!!loggedIn &&
               <MenuItem>
-                <Link to="/profile">{loggedIn.username}</Link>
+                <Link to={`/profile/${loggedIn.username}`}>
+                  {loggedIn.username}
+                </Link>
               </MenuItem>}
             {!loggedIn &&
               <MenuItem>

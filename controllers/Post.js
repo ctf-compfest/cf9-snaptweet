@@ -2,9 +2,11 @@ const Post = require('../models/Post');
 
 async function getAll(ctx) {
   if (ctx.request.query.populate) {
-    ctx.body = await Post.find().populate('author');
+    ctx.body = await Post.findNonExpired()
+      .sort('-created_at')
+      .populate('author');
   } else {
-    ctx.body = await Post.find();
+    ctx.body = await Post.findNonExpired().sort('-created_at');
   }
 }
 

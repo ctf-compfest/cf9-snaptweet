@@ -34,6 +34,10 @@ export async function fetchPosts() {
   return response.data;
 }
 
+export async function submitPost(body) {
+  return await axios.post('/api/posts', { body });
+}
+
 function setToken(token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
