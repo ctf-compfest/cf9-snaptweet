@@ -13,8 +13,8 @@ class Dashboard extends Component {
   componentDidMount() {
     this.fetchUser();
 
-    // 30 seconds poll
-    setInterval(this.fetchUser, 1000 * 30);
+    // 1 minute poll
+    setInterval(this.fetchUser, 1000 * 60);
   }
 
   componentWillReact() {
