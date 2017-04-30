@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
-const cors = require('kcors');
 const serve = require('koa-static');
 const mongoose = require('mongoose');
 const logger = require('./middlewares/logger');
@@ -14,7 +13,6 @@ mongoose.connect(process.env.DB_HOST);
 
 const app = new Koa();
 
-app.use(cors());
 app.use(logger);
 app.use(bodyParser());
 app.use(serve(__dirname + '/client/build'));
