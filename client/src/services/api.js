@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-
 export async function login(username, password) {
   const response = await axios.post('/api/login', { username, password });
   const token = response.data.token;

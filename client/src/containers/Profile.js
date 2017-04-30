@@ -32,6 +32,11 @@ class Dashboard extends Component {
     this.props.store.fetchUser(this.props.match.params.username);
   }
 
+  getBackup() {
+    const username = this.props.match.params.username;
+    window.open(`/api/users/${username}/backup`);
+  }
+
   render() {
     const isLoggedIn = !!this.props.store.loggedIn.get();
     const user = this.props.store.user.get();
@@ -41,7 +46,9 @@ class Dashboard extends Component {
         <div>
           <h3>{user.username}'s Tweets</h3>
           {this.props.store.loggedIn.get().role === 'admin' &&
-            <Button>Send Backup</Button>}
+            <Button onClick={this.getBackup}>
+              Backup Link
+            </Button>}
           <div>
             {user.posts
               .map(post =>

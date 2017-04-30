@@ -24,7 +24,14 @@ User.options.toJSON.transform = (doc, ret, opts) => ({
 });
 
 User.methods.getPosts = async function() {
-  const posts = await Post.findNonExpired({ author: this._id }).sort('-created_at');
+  const posts = await Post.findNonExpired({ author: this._id }).sort(
+    '-created_at'
+  );
+  return posts;
+};
+
+User.methods.getAllPosts = async function() {
+  const posts = await Post.find({ author: this._id }).sort('-created_at');
   return posts;
 };
 
