@@ -13,20 +13,10 @@ class Dashboard extends Component {
       tweet: '',
     };
 
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
     this.submitPost = this.submitPost.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-  }
-
-  login() {
-    this.props.store.login('guest', 'guest');
-  }
-
-  logout() {
-    this.props.store.logout();
   }
 
   componentDidMount() {
@@ -79,6 +69,8 @@ class Dashboard extends Component {
             </ButtonContainer>
           </Card>}
         <div>
+          {!this.props.store.posts.length &&
+            <EmptyTweetContainer>No Tweets :(</EmptyTweetContainer>}
           {this.props.store.posts.map(post => (
             <TweetCard key={post.id} post={post} />
           ))}
@@ -101,6 +93,16 @@ const TweetInput = styled.textarea`
   font-size: 1.4rem;
   font-family: ${props => props.theme.mainFont};
   outline: 0;
+`;
+
+const EmptyTweetContainer = styled.div`
+  margin-top: 2rem;
+  padding: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${props => props.theme.headingFont};
+  font-size: 2rem;
 `;
 
 export default inject('store')(observer(Dashboard));

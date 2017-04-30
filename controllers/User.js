@@ -35,6 +35,7 @@ async function put(ctx) {
   const data = ctx.request.body;
   delete data.id;
   delete data.username;
+  delete data.role;
   data.username = username;
   try {
     ctx.body = await User.update({ username }, data);

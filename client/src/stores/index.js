@@ -5,6 +5,7 @@ export class User {
   username = observable('');
   email = observable('');
   role = observable('');
+  posts = observable(null);
 
   constructor(data = {}) {
     this.update(data);
@@ -19,6 +20,7 @@ export class User {
     this.username = json.username || '';
     this.email = json.email || '';
     this.role = json.role || '';
+    this.posts = json.posts || null;
   }
 }
 
@@ -94,6 +96,13 @@ export default class Store {
       }
     } catch (err) {
       this.logout();
+    }
+  });
+
+  fetchUser = action(async function(username) {
+    const data = await this.service.fetchUser(username);
+    if (data) {
+      this.user.set(new User(data));
     }
   });
 

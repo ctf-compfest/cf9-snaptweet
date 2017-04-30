@@ -29,6 +29,11 @@ export async function fetchLogin(token) {
   return response.data;
 }
 
+export async function fetchUser(username) {
+  const response = await axios.get(`/api/users/${username}?populate=true`);
+  return response.data;
+}
+
 export async function fetchPosts() {
   const response = await axios.get('/api/posts?populate=true');
   return response.data;

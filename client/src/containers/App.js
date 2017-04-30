@@ -6,6 +6,7 @@ import { Provider } from 'mobx-react';
 import NavBar from '../components/NavBar';
 import Dashboard from './Dashboard';
 import Login from './Login';
+import Profile from './Profile';
 
 const theme = {
   mainFont: "'Source Sans Pro', sans-serif",
@@ -33,6 +34,7 @@ export default class App extends Component {
               <Container>
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/profile/:username" component={Profile} />
               </Container>
             </div>
           </Router>
