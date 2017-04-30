@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const cors = require('kcors');
@@ -7,7 +9,7 @@ const auth = require('./middlewares/auth');
 const router = require('./routes');
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/cf9-oops');
+mongoose.connect(process.env.DB_HOST);
 
 const app = new Koa();
 
@@ -18,5 +20,5 @@ app.use(auth.passport.initialize());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen(3000);
-console.log('Listening on port 3000');
+app.listen(process.env.PORT);
+console.log('Listening on port ' + process.env.PORT);

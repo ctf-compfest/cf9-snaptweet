@@ -52,7 +52,7 @@ const login = (ctx, next) => {
       ctx.status = 401;
       ctx.body = info.message;
     } else {
-      const token = jwt.sign({ id: user.id }, 'test-secret', {
+      const token = jwt.sign({ id: user.id }, process.env.SECRET, {
         expiresIn: '1h',
       });
       ctx.body = { token };
@@ -83,7 +83,7 @@ const onlyAdmin = (ctx, next) => {
 
 const decode = token => {
   try {
-    const decoded = jwt.verify(token, 'test-secret');
+    const decoded = jwt.verify(token, process.env.SECRET);
     return decoded;
   } catch (err) {
     return false;
