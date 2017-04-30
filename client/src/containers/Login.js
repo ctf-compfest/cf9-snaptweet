@@ -44,6 +44,7 @@ class Login extends Component {
 
     if (password !== confirmPassword) {
       alert('Mismatch password confirmation');
+      return;
     }
 
     this.props.store.register(username, email, password);
